@@ -1,0 +1,5 @@
+pandas
+asyncio
+fastapi
+uvicorn
+pandera

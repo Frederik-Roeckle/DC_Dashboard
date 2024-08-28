@@ -1,0 +1,18 @@
+.venv
+
+.ipynb_checkpoints
+
+Time-Series-Directional-Change-Analysis
+
+dcgenerator
+
+.idea
+
+DirectionalChangeLogic.ipynb
+
+Untitled.ipynb
+
+dash/dashboard.py
+
+fastapi/dc_generator.py
+fastapi/dc_generator copy.py
