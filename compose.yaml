@@ -1,0 +1,22 @@
+services:
+  fastapi1:
+    build: ./fastapi
+    ports:
+      - "9000:8000"
+  fastapi2:
+    build: ./fastapi
+    ports:
+      - "9001:8000"
+  fastapi3:
+    build: ./fastapi
+    ports:
+      - "9002:8000"
+  fastapi4:
+    build: ./fastapi
+    ports:
+      - "9003:8000"
+  fastapi5:
+    build: ./fastapi
+    ports:
+      - "9004:8000"
+

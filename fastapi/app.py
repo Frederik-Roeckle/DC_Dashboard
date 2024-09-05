@@ -4,6 +4,8 @@ from pandera.typing import DataFrame
 import asyncio
 from fastapi import FastAPI, HTTPException
 import uvicorn
+import random
+import string
 
 import datastream
 
@@ -16,8 +18,10 @@ lock = asyncio.Lock()
 # @pa.check_types
 def initialize_result_dataframe() -> pd.DataFrame:
     # Read .env with the theta values, asset_classes, etc
+
+    name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
     datastructure = {
-        "asset_name": ["DAX","DAX", "DAX"],
+        "asset_name": [name, name, name],
         "theta_value": [0.003, 0.005, 0.01],
         "overshoot_value": [-1.0, -1.0, -1.0],
         "current_run": [None, None, None],
@@ -92,7 +96,7 @@ def calculate_overshoot_value(current_price, current_run, last_high_price, last_
 # Main function to process data and detect directional changes
 async def process_data():
     global result_df
-    data_stream = datastream.stream_data()
+    data_stream = datastream.stream_artificial_data()
 
     async for row in data_stream:
         async with lock:
