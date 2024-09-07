@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 from dash import Dash, html, dcc, callback, Output, Input
 import requests
@@ -12,11 +14,11 @@ app = Dash()
 
 
 adresses = [
-    "http://localhost:9000/data",
-    "http://localhost:9001/data",
-    "http://localhost:9002/data",
-    "http://localhost:9003/data",
-    "http://localhost:9004/data"
+    "http://fastapi1:8000/data",
+    "http://fastapi2:8000/data",
+    "http://fastapi3:8000/data",
+    "http://fastapi4:8000/data",
+    "http://fastapi5:8000/data"
 ]
 
 # TODO: Wrap graph into loading component while rendering
@@ -32,17 +34,17 @@ app.layout = html.Div([
     Input("interval", component_property="n_intervals")
 )
 def request_data_from_api(value):
+    logging.info("Requesting data from APIs")
     dfs = []
     for service in adresses:
         res = requests.get(service)
         df = pd.DataFrame(res.json())
         dfs.append(df)
     df = pd.concat(dfs)
-    # print(df)
 
 
     # x contains all theta values
-    x = df["theta_value"].unique()
+    x = df["theta_value"].sort_values().unique()
     x = [str(element) for element in x]
     print(f"x: {x}")
 
@@ -56,15 +58,10 @@ def request_data_from_api(value):
     for category in df['asset_name'].unique():
         # Filter the DataFrame for the current category and get the 'Value' column
         values_list = df[df['asset_name'] == category]['overshoot_value'].tolist()
+        values_list = [round(value, 3) for value in values_list]
         # Append the list of values to the final list
         z.append(values_list)
     print(f"z: {z}")
-
-
-    # print(df.head())
-
-    # fig = go.Figure(data=go.Heatmap(z=z, x=x, y=y))
-
 
     # more info regarding coloring: https://plotly.com/python/colorscales/
 
@@ -82,4 +79,4 @@ def request_data_from_api(value):
     return fig
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run_server(host="0.0.0.0",debug=False, port=8050)

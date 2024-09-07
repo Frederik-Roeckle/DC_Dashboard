@@ -1,22 +1,32 @@
 services:
   fastapi1:
     build: ./fastapi
+    hostname: fastapi1
     ports:
       - "9000:8000"
   fastapi2:
     build: ./fastapi
+    hostname: fastapi2
     ports:
       - "9001:8000"
   fastapi3:
     build: ./fastapi
+    hostname: fastapi3
     ports:
       - "9002:8000"
   fastapi4:
     build: ./fastapi
+    hostname: fastapi4
     ports:
       - "9003:8000"
   fastapi5:
     build: ./fastapi
+    hostname: fastapi5
     ports:
       - "9004:8000"
+  frontend:
+    build: ./dash
+    ports:
+      - "8999:8050"
+      - "8000:8000"
 
